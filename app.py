@@ -1,7 +1,9 @@
 import streamlit as st
 
 from utils.file_loader import load_file
-from operations.pandas_operations.remove_duplicates import remove_duplicates
+from operations.pandas_operations.remove_duplicates import remove_duplicates 
+from operations.pandas_operations.preview_first_rows import preview_first_rows
+from operations.pandas_operations.shape import shape
 
 # Page configuration
 st.set_page_config(
@@ -47,14 +49,21 @@ if uploaded_file is not None:
 
             st.write("### Result")
 
-            st.dataframe(
-                result_df,
-                use_container_width=True
-            )
+            st.dataframe(result_df, use_container_width=True)
+
+        # Preview First Rows
+        if st.button("Preview First Rows"):
+            result_df = preview_first_rows(df)
+            st.write("### Result")
+            st.dataframe(result_df, use_container_width=True)
+
+        # Preview Shape of Table
+        if st.button("Preview Shape of Data"):
+            result_df = shape(df)
+            st.write("### Result")
+            st.write(result_df)
 
 
     except Exception as e:
+        st.exception(e)
 
-        st.error(
-            f"Error loading file: {e}"
-        )
